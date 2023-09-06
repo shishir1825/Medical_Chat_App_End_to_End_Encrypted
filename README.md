@@ -20,6 +20,8 @@
 # Web Sockets
 1. Establishing WS Connection: let webSocket = new WebSocket("ws://localhost:3000/chat")
 2. Event Listeners of the webSocket Object:
+
+   
     webSocket.onopen = () => {
         console.log(‘WebSocket Client Connected’);
         webSocket.send('Hi this is web client.');
@@ -30,11 +32,15 @@
     webSocket.close = () => {
         console.log('WebSocket Client Closed.’);
     };
+
+   
 # Signal Protocol Implementation
 1. InMemorySignalProtocolStore.js (and helpers.js) are taken for storage purpose from Signal Github (link mentioned in resources)
 2. libsignal-protocol.js (also from Signal Github) implements the protocol
 3. Signal Gateway - Created by me to integrate React with Signal. It performs the Initialization, Encryption and Decryption functionality when required on Frontend. Check the file in src/signal/SignalGateway.js for detailed code.
 4. Calling Signal Methods for Encryption
+
+
    async getNewMsgObj(newMsgObj) {
         let selectedUserChatId = this.getSelectedUserChatId()
         let msgToSend = { chatId: selectedUserChatId, senderid: this.props.loggedInUserObj._id, receiverid: this.state.messageToUser._id, ...newMsgObj }
@@ -48,7 +54,9 @@
             console.log(error);
         }
     }
-5. Calling Signal Methods for Decryption
+6. Calling Signal Methods for Decryption
+
+   
     ws.onmessage = async (e) => {
             let newMessage = JSON.parse(e.data)
             // In case message is from self, save state-stored message to Chats i.e. no need of using/decrypting the received message
@@ -75,6 +83,7 @@
 
 # Web Sockets (Push Server) as a Service
 1. HTTP protocol upgrade to websocket (101 status code)
+   
    import * as http from ‘http’
 
 export default class WebSockets {
@@ -88,6 +97,7 @@ export default class WebSockets {
 }
 
 2. Sending and Receiving of Messages to/from frontend.
+   
    wsServer.on(‘request',request => {
    const connection = request.accept(null, request.origin);
 
